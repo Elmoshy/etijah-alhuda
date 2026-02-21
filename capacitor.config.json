@@ -1,0 +1,17 @@
+{
+  "appId": "com.elmoshy.etijahalhuda",
+  "appName": "اتجاه الهدى",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true,
+    "backgroundColor": "#09090b",
+    "minWebViewVersion": 60
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#09090b",
+      "showSpinner": false
+    }
+  }
+}
