@@ -1,0 +1,39 @@
+{
+  "name": "اتجاه الهدى",
+  "short_name": "الهدى",
+  "description": "تطبيق إسلامي شامل — مواقيت الصلاة والقرآن والأذكار والتقويم الهجري",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a0b",
+  "theme_color": "#f59e0b",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["lifestyle", "religion"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "مواقيت الصلاة",
+      "url": "./#home",
+      "description": "عرض مواقيت الصلاة"
+    },
+    {
+      "name": "القرآن الكريم",
+      "url": "./#quran",
+      "description": "قراءة القرآن الكريم"
+    }
+  ]
+}
