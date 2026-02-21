@@ -1,5 +1,5 @@
 /**
- * Service Worker — اتجاه الهدى PWA
+ * Service Worker — Etijah Alhuda PWA
  * الاستراتيجية: Cache-First للملفات الثابتة، Network-First للـ API
  */
 const CACHE  = 'etijah-v1.1';
