@@ -1,0 +1,17 @@
+{
+  "name": "اتجاه الهدى - ETIJAH ALHUDA",
+  "short_name": "اتجاه الهدى",
+  "description": "دليلك الإسلامي الشامل للقرآن الكريم ومواقيت الصلاة والأذكار",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a10",
+  "theme_color": "#c9a84c",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
+  <title>اتجاه الهدى</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c9a84c">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body class="dark">
+
+  <audio id="radioAudio" preload="none"></audio>
+
+  <!-- ═══ TOPBAR ═══ -->
+  <div class="topbar">
+    <div class="t-brand">
+      <div class="t-logo">
+        <i class="fa-solid fa-mosque"></i>
+      </div>
+      <div>
+        <div class="t-title">ETIJAH ALHUDA</div>
+        <div class="t-sub">اتجاه الهدى</div>
+      </div>
+    </div>
+    <div class="t-center">
+      <div class="t-greg" id="gregDisplay"></div>
+      <div class="t-hijri" id="hijriDisplay">—</div>
+    </div>
+    <div class="t-actions">
+      <button class="icon-btn radio-fab-btn" id="radioFab" onclick="toggleRadio()" title="راديو القرآن الكريم">
+        <span class="radio-dot" id="radioDot"></span>
+        <span class="radio-waves" id="radioWaves">
+          <span></span><span></span><span></span>
+        </span>
+        <i class="fa-solid fa-radio" id="radioFabIcon"></i>
+      </button>
+      <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">
+        <i class="fa-solid fa-circle-half-stroke" id="themeIcon"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN ═══ -->
+  <div class="main">
+
+    <!-- ══ الرئيسية ══ -->
+    <div class="page active fade" id="page-home">
+      <div class="home-hero">
+        <div class="hero-geo"><svg viewBox="0 0 100 100">
+            <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="currentColor"
+              stroke-width="1" />
+            <polygon points="50,15 85,32.5 85,67.5 50,85 15,67.5 15,32.5" fill="none" stroke="currentColor"
+              stroke-width="0.5" />
+          </svg></div>
+        <div class="hero-time" id="heroTime">--:--</div>
+        <div class="hero-date-row">
+          <div class="hero-greg" id="heroGreg"></div>
+          <div class="hero-sep"></div>
+          <div class="hero-hijri" id="heroHijri"></div>
+        </div>
+        <div class="hero-location" id="heroLocation">
+          <i class="fa-solid fa-location-dot"></i>
+          اختر مدينتك
+        </div>
+      </div>
+
+      <div class="sel-row">
+        <select class="sel" id="countrySelect" onchange="onCountryChange()">
+          <option value="">— الدولة —</option>
+        </select>
+        <select class="sel" id="citySelect" onchange="onCityChange()">
+          <option value="">— المدينة —</option>
+        </select>
+      </div>
+
+      <div id="prayerTimes"></div>
+
+      <div class="countdown-wrap" id="countdownWrap" style="display:none">
+        <div class="countdown-card">
+          <div class="countdown-left">
+            <div class="countdown-label"><i class="fa-regular fa-clock"></i> الوقت المتبقي لـ</div>
+            <div class="countdown-prayer" id="countdownName">—</div>
+          </div>
+          <div class="countdown-right">
+            <div class="countdown-timer" id="countdownTimer">--:--:--</div>
+            <div class="countdown-sub">ساعة : دقيقة : ثانية</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="dhikrCardWrap" style="padding:6px 14px 14px">
+        <div class="dhikr-card">
+          <div class="dhikr-header">
+            <div class="dhikr-icon-wrap">
+              <i class="fa-solid fa-star-and-crescent"></i>
+            </div>
+            <div class="dhikr-badge" id="dcLabel">ذكر</div>
+          </div>
+          <div class="dhikr-text" id="dcText"></div>
+          <div class="dhikr-src" id="dcSrc">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <div class="dhikr-nav">
+            <button class="dhikr-btn" onclick="prevDhikr()"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="dhikr-dots" id="dcDots"></div>
+            <button class="dhikr-btn" onclick="nextDhikr()"><i class="fa-solid fa-chevron-left"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ القرآن ══ -->
+    <div class="page" id="page-quran">
+      <div id="qp-main">
+        <div class="tab-row">
+          <button class="tab active" id="tab-mushaf" onclick="switchQT('mushaf')">
+            <i class="fa-solid fa-book-quran"></i>
+            المصحف
+          </button>
+          <button class="tab" id="tab-juz" onclick="switchQT('juz')">
+            <i class="fa-solid fa-list-ol"></i>
+            الأجزاء
+          </button>
+          <button class="tab" id="tab-browse" onclick="switchQT('browse')">
+            <i class="fa-solid fa-table-list"></i>
+            السور
+          </button>
+          <button class="tab" id="tab-audio" onclick="switchQT('audio')">
+            <i class="fa-solid fa-headphones"></i>
+            الشيوخ
+          </button>
+        </div>
+        <div class="global-bmk-wrap" id="globalBmkWrap" style="display:none; padding:0 14px 10px;">
+          <button class="global-bmk-btn" onclick="jumpToLastBookmark()">
+            <i class="fa-solid fa-bookmark"></i> إكمال القراءة من العلامة المرجعية
+          </button>
+        </div>
+        <div id="qt-mushaf">
+          <div id="mushafUI"></div>
+        </div>
+        <div id="qt-juz" style="display:none">
+          <div id="juzListArea"></div>
+        </div>
+        <div id="qt-browse" style="display:none">
+          <div id="qListArea"></div>
+        </div>
+        <div id="qt-audio" style="display:none">
+          <div id="audioQuranUI"></div>
+        </div>
+      </div>
+      <div id="qp-reader" style="display:none">
+        <div class="reader-hdr">
+          <button class="back-btn" onclick="closeReader()">
+            <i class="fa-solid fa-arrow-right"></i>
+            رجوع
+          </button>
+          <div id="rdrTitle" class="reader-title"></div>
+          <div class="fsize-ctrls">
+            <button class="f-btn" onclick="changeFontSize(2)" title="تكبير الخط"><i
+                class="fa-solid fa-plus"></i></button>
+            <button class="f-btn" onclick="changeFontSize(-2)" title="تصغير الخط"><i
+                class="fa-solid fa-minus"></i></button>
+          </div>
+        </div>
+        <div id="ayahWrap"></div>
+      </div>
+    </div>
+
+    <!-- ══ الأذكار ══ -->
+    <div class="page" id="page-adhkar">
+      <div id="adhkarContent"></div>
+    </div>
+
+    <!-- ══ القبلة ══ -->
+    <div class="page" id="page-qibla">
+      <div style="padding:16px">
+        <div class="section-title">
+          <i class="fa-solid fa-compass"></i>
+          اتجاه القبلة
+        </div>
+
+        <!-- Tabs: قبلة / سبحة -->
+        <div class="tab-row" style="margin-bottom:16px">
+          <button class="tab active" id="qt-qibla-btn" onclick="switchQiblaTab('qibla')">
+            <i class="fa-solid fa-compass"></i> القبلة
+          </button>
+          <button class="tab" id="qt-tasbih-btn" onclick="switchQiblaTab('tasbih')">
+            <i class="fa-solid fa-circle-dot"></i> السبحة
+          </button>
+        </div>
+
+        <!-- Qibla Content -->
+        <div id="qibla-content">
+          <div style="text-align:center;padding:20px 0">
+            <button onclick="findQibla()" class="btn-find-qibla">
+              <i class="fa-solid fa-location-crosshairs"></i>
+              تحديد الموقع وإظهار القبلة
+            </button>
+          </div>
+          <div id="qiblaResult" style="text-align:center;color:var(--tx3);padding:10px 0"></div>
+          <div id="compassWrap" style="display:none;text-align:center;padding:10px 0">
+            <canvas id="compassCanvas" width="260" height="260" style="max-width:100%;border-radius:50%"></canvas>
+            <div id="qiblaInfo" style="margin-top:14px;font-size:13px;color:var(--tx2);line-height:2"></div>
+          </div>
+        </div>
+
+        <!-- Tasbih 2 (inside qibla page) -->
+        <div id="qibla-tasbih-content" style="display:none">
+          <div class="tasbih-page">
+            <div class="tasbih-circle-wrap">
+              <div class="tasbih-circle" id="tasbihCircle2" onclick="tapTasbih2()">
+                <div class="tasbih-count" id="tasbihCount2">0</div>
+                <div class="tasbih-total" id="tasbihTotalShow2">من 33</div>
+              </div>
+              <div class="tasbih-name" id="tasbihCurrentName2">سبحان الله</div>
+            </div>
+            <div class="tasbih-controls">
+              <button class="tasbih-btn" onclick="resetTasbih2()">
+                <i class="fa-solid fa-rotate-right"></i> إعادة
+              </button>
+              <button class="tasbih-btn" onclick="undoTasbih2()">
+                <i class="fa-solid fa-rotate-left"></i> تراجع
+              </button>
+              <button class="tasbih-btn" onclick="nextTasbihPreset2()">
+                <i class="fa-solid fa-forward-step"></i> التالي
+              </button>
+            </div>
+            <div class="tasbih-presets" id="tasbihPresets2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ السبحة ══ -->
+    <div class="page" id="page-tasbih">
+      <div class="tasbih-page">
+        <div class="section-title">
+          <i class="fa-solid fa-circle-dot"></i>
+          السبحة الرقمية
+        </div>
+        <div class="tasbih-circle-wrap">
+          <div class="tasbih-circle" id="tasbihCircle" onclick="tapTasbih()">
+            <div class="tasbih-count" id="tasbihCount">0</div>
+            <div class="tasbih-total" id="tasbihTotalShow">من 33</div>
+          </div>
+          <div class="tasbih-name" id="tasbihCurrentName">سبحان الله</div>
+        </div>
+        <div class="tasbih-controls">
+          <button class="tasbih-btn" onclick="resetTasbih()">
+            <i class="fa-solid fa-rotate-right"></i>
+            إعادة
+          </button>
+          <button class="tasbih-btn" onclick="undoTasbih()">
+            <i class="fa-solid fa-rotate-left"></i>
+            تراجع
+          </button>
+          <button class="tasbih-btn" onclick="nextTasbihPreset()">
+            <i class="fa-solid fa-forward-step"></i>
+            التالي
+          </button>
+        </div>
+        <div class="tasbih-presets" id="tasbihPresets"></div>
+      </div>
+    </div>
+
+    <!-- ══ التقويم ══ -->
+    <div class="page" id="page-calendar">
+      <div id="calendarContent"></div>
+    </div>
+
+    <!-- ══ الإعدادات ══ -->
+    <div class="page" id="page-settings">
+      <div class="settings-page">
+        <div class="section-title">
+          <i class="fa-solid fa-gear"></i>
+          الإعدادات
+        </div>
+
+        <div class="hijri-card">
+          <div class="hijri-adj-row">
+            <button class="hijri-adj-btn" onclick="adjustHijri(-1)">−</button>
+            <div>
+              <div class="hijri-card-date" id="settingsHijriDate">—</div>
+              <div class="hijri-card-greg" id="settingsGregDate">—</div>
+              <div id="hijriOffsetDisplay" style="font-size:11px;color:var(--ac);text-align:center;margin-top:4px">
+                تلقائي</div>
+            </div>
+            <button class="hijri-adj-btn" onclick="adjustHijri(1)">+</button>
+          </div>
+          <div class="hijri-adj-note" style="display:flex;align-items:center;justify-content:center;gap:8px">
+            <span>تعديل التاريخ الهجري</span>
+            <button onclick="resetHijriOffset()"
+              style="font-size:11px;padding:2px 8px;border-radius:8px;border:1px solid var(--ac);color:var(--ac);background:transparent;cursor:pointer">إعادة
+              ضبط</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-label">
+            <i class="fa-solid fa-clock"></i>
+            تعديل مواقيت الصلاة (بالدقائق)
+          </div>
+          <div class="prayer-offsets-grid">
+            <div class="off-item">
+              <span>الفجر</span>
+              <div class="off-ctrls">
+                <button onclick="adjustPrOff('fajr', -1)">-</button>
+                <span id="off-fajr">0</span>
+                <button onclick="adjustPrOff('fajr', 1)">+</button>
+              </div>
+            </div>
+            <div class="off-item">
+              <span>الشروق</span>
+              <div class="off-ctrls">
+                <button onclick="adjustPrOff('sunrise', -1)">-</button>
+                <span id="off-sunrise">0</span>
+                <button onclick="adjustPrOff('sunrise', 1)">+</button>
+              </div>
+            </div>
+            <div class="off-item">
+              <span>الظهر</span>
+              <div class="off-ctrls">
+                <button onclick="adjustPrOff('dhuhr', -1)">-</button>
+                <span id="off-dhuhr">0</span>
+                <button onclick="adjustPrOff('dhuhr', 1)">+</button>
+              </div>
+            </div>
+            <div class="off-item">
+              <span>العصر</span>
+              <div class="off-ctrls">
+                <button onclick="adjustPrOff('asr', -1)">-</button>
+                <span id="off-asr">0</span>
+                <button onclick="adjustPrOff('asr', 1)">+</button>
+              </div>
+            </div>
+            <div class="off-item">
+              <span>المغرب</span>
+              <div class="off-ctrls">
+                <button onclick="adjustPrOff('maghrib', -1)">-</button>
+                <span id="off-maghrib">0</span>
+                <button onclick="adjustPrOff('maghrib', 1)">+</button>
+              </div>
+            </div>
+            <div class="off-item">
+              <span>العشاء</span>
+              <div class="off-ctrls">
+                <button onclick="adjustPrOff('isha', -1)">-</button>
+                <span id="off-isha">0</span>
+                <button onclick="adjustPrOff('isha', 1)">+</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-reset-off" onclick="resetPrayerOffsets()">إعادة ضبط المواقيت</button>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-label">
+            <i class="fa-solid fa-palette"></i>
+            المظهر
+          </div>
+          <div class="settings-row">
+            <span>الوضع الداكن / الفاتح</span>
+            <button class="btn-toggle" onclick="toggleTheme()">تبديل</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-label">
+            <i class="fa-solid fa-sun"></i>
+            التوقيت الصيفي
+          </div>
+          <div class="settings-row">
+            <div>
+              <div style="font-size:13px;color:var(--tx2)">يضيف 60 دقيقة على المواقيت</div>
+              <div class="dst-status" id="dstStatus">معطّل</div>
+            </div>
+            <button class="btn-dst" id="dstBtn" onclick="toggleDST()">تفعيل</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-label">
+            <i class="fa-solid fa-bell"></i>
+            التنبيه بالصلاة
+          </div>
+          <div class="alarm-section">
+            <div class="settings-row" style="margin-bottom:10px">
+              <span style="font-size:13px;color:var(--tx2)">تنبيه قبل الصلاة بـ</span>
+              <select class="sel sel-sm" id="alarmMinutes" onchange="saveAlarmSettings()">
+                <option value="0">لا تنبيه</option>
+                <option value="5">5 دقائق</option>
+                <option value="10" selected>10 دقائق</option>
+                <option value="15">15 دقيقة</option>
+                <option value="20">20 دقيقة</option>
+                <option value="30">30 دقيقة</option>
+              </select>
+            </div>
+            <div class="alarm-label">الصلوات:</div>
+            <div class="alarm-boxes">
+              <label class="alarm-check"><input type="checkbox" id="alarm-fajr" checked onchange="saveAlarmSettings()">
+                الفجر</label>
+              <label class="alarm-check"><input type="checkbox" id="alarm-dhuhr" checked onchange="saveAlarmSettings()">
+                الظهر</label>
+              <label class="alarm-check"><input type="checkbox" id="alarm-asr" checked onchange="saveAlarmSettings()">
+                العصر</label>
+              <label class="alarm-check"><input type="checkbox" id="alarm-maghrib" checked
+                  onchange="saveAlarmSettings()"> المغرب</label>
+              <label class="alarm-check"><input type="checkbox" id="alarm-isha" checked onchange="saveAlarmSettings()">
+                العشاء</label>
+            </div>
+            <button class="btn-alarm-test" onclick="testAlarm()">
+              <i class="fa-solid fa-bell-ring"></i>
+              اختبار التنبيه
+            </button>
+            <div class="alarm-note">* يتطلب السماح بالإشعارات</div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-label">
+            <i class="fa-solid fa-circle-info"></i>
+            حول التطبيق
+          </div>
+          <div class="about-box">
+            <div class="about-logo">
+              <i class="fa-solid fa-mosque" style="font-size:36px;color:var(--ac)"></i>
+            </div>
+            <p style="font-weight:700">اتجاه الهدى</p>
+            <p style="color:var(--tx3);font-size:12px">مواقيت الصلاة · القرآن الكريم · الأذكار · السبحة · التقويم</p>
+            <p style="color:var(--ac);font-size:12px;margin-top:4px">الإصدار 7.0</p>
+            <div class="copyright-line">© 2026 Abdullah Elmoshy. جميع الحقوق محفوظة.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ BOTTOM NAV ═══ -->
+  <nav class="bnav">
+    <button class="ni active" id="nav-home" onclick="nav('home')">
+      <i class="fa-solid fa-house"></i>
+      <span class="ni-lbl">الرئيسية</span>
+    </button>
+    <button class="ni" id="nav-quran" onclick="nav('quran')">
+      <i class="fa-solid fa-book-quran"></i>
+      <span class="ni-lbl">القرآن</span>
+    </button>
+    <button class="ni" id="nav-adhkar" onclick="nav('adhkar')">
+      <i class="fa-solid fa-hands-praying"></i>
+      <span class="ni-lbl">الأذكار</span>
+    </button>
+    <button class="ni" id="nav-tasbih" onclick="nav('tasbih')">
+      <i class="fa-solid fa-circle-dot"></i>
+      <span class="ni-lbl">السبحة</span>
+    </button>
+    <button class="ni" id="nav-qibla" onclick="nav('qibla')">
+      <i class="fa-solid fa-compass"></i>
+      <span class="ni-lbl">القبلة</span>
+    </button>
+    <button class="ni" id="nav-calendar" onclick="nav('calendar')">
+      <i class="fa-regular fa-calendar"></i>
+      <span class="ni-lbl">التقويم</span>
+    </button>
+    <button class="ni" id="nav-settings" onclick="nav('settings')">
+      <i class="fa-solid fa-gear"></i>
+      <span class="ni-lbl">الإعدادات</span>
+    </button>
+  </nav>
+
+  <!-- Radio Toast -->
+  <div id="radioToast" class="radio-toast"></div>
+
+  <script src="js/adhkar_data.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/quran_data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/radio.js"></script>
+  <script src="js/prayers.js"></script>
+  <script src="js/quran.js"></script>
+  <script src="js/adhkar.js"></script>
+  <script src="js/tasbih.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/qibla.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/qibla_tabs.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('Service Worker: Registered'))
+          .catch(err => console.log(`Service Worker: Error: ${err}`));
+      });
+    }
+  </script>
+</body>
+
+</html>
